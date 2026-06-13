@@ -112,7 +112,7 @@ def test():
             # per-frame mask prediction
             ref_masks = []
             ref_scores = []
-            ref_num = 5
+            ref_num = 10
             for ref_idx in range(ref_num):
                 i = int(ref_idx * (video_len - 1) / (ref_num - 1))
                 words = tokenizer(exp, return_tensors='pt')['input_ids'].cuda()
