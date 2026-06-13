@@ -3,6 +3,7 @@ from cutie.inference.inference_core import InferenceCore
 from cutie.utils.get_default_model import get_default_model
 from utils import *
 import os
+import shutil
 import cv2
 import json
 import numpy as np
@@ -104,6 +105,9 @@ def test():
             save_path = os.path.join(save_path_prefix, video_name, exp_id)
             if not os.path.exists(save_path):
                 os.makedirs(save_path)
+            elif len(os.listdir(save_path)) == len(frames):
+                print(f"Skipping {video_name} - {exp_id}, already completely processed.")
+                continue
 
             # per-frame mask prediction
             ref_masks = []
@@ -166,6 +170,10 @@ def test():
                 mask = Image.fromarray(mask * 255).convert('L')
                 save_file = os.path.join(save_path, frames[i] + '.png')
                 mask.save(save_file)
+
+    print(f"Zipping results for Codabench submission...")
+    zip_name = shutil.make_archive(save_path_prefix, 'zip', save_path_prefix)
+    print(f"Created zip file: {zip_name}")
 
 
 if __name__ == '__main__':
