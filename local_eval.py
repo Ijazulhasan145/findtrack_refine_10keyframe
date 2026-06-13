@@ -68,7 +68,10 @@ def evaluate_ytvos(pred_dir, gt_dir, meta_file):
             if not os.path.exists(exp_pred_path):
                 continue
                 
-            obj_id = int(exp_dict['obj_id'])
+            if 'obj_id' in exp_dict:
+                obj_id = int(exp_dict['obj_id'])
+            else:
+                obj_id = int(exp_id)
             
             for frame_file in os.listdir(exp_pred_path):
                 if not frame_file.endswith('.png'):
