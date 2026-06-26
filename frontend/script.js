@@ -83,7 +83,10 @@ document.addEventListener('DOMContentLoaded', () => {
             // Call the FastAPI backend using a relative path so it works seamlessly with Ngrok
             const response = await fetch('/api/segment', {
                 method: 'POST',
-                body: formData
+                body: formData,
+                headers: {
+                    'ngrok-skip-browser-warning': 'true'
+                }
             });
 
             if (!response.ok) {
