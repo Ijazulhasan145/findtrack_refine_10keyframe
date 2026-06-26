@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FindTrack-R³ | Premium RVOS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <!-- Phosphor Icons for modern iconography -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body>
+    <div class="background-effects">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
+    <main class="container">
+        <header>
+            <div class="logo">
+                <i class="ph-fill ph-crosshair"></i>
+                <h1>FindTrack-R³</h1>
+            </div>
+            <p class="subtitle">Decoupled Referring Video Object Segmentation with ReSAM</p>
+        </header>
+
+        <div class="glass-panel main-interface">
+            <!-- Left Side: Input Form -->
+            <section class="input-section">
+                <form id="segmentation-form">
+                    <div class="form-group">
+                        <label>Upload Video</label>
+                        <div class="file-drop-area" id="drop-area">
+                            <i class="ph ph-upload-simple"></i>
+                            <span class="file-msg">Drag & drop a video here or click to browse</span>
+                            <input type="file" id="video-input" name="video" accept="video/mp4,video/x-m4v,video/*" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="prompt">Text Expression</label>
+                        <div class="input-wrapper">
+                            <i class="ph ph-text-t"></i>
+                            <input type="text" id="prompt" name="prompt" placeholder="e.g. A dog running on grass" required autocomplete="off">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="gpu">GPU Target</label>
+                        <div class="input-wrapper">
+                            <i class="ph ph-cpu"></i>
+                            <select id="gpu" name="gpu">
+                                <option value="0">GPU 0 (Default)</option>
+                                <option value="1">GPU 1</option>
+                                <option value="2">GPU 2</option>
+                                <option value="3">GPU 3</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="submit" id="submit-btn">
+                        <span>Segment Video</span>
+                        <i class="ph-bold ph-arrow-right"></i>
+                    </button>
+                </form>
+            </section>
+
+            <!-- Divider -->
+            <div class="divider"></div>
+
+            <!-- Right Side: Output/Result -->
+            <section class="output-section">
+                
+                <!-- Initial Empty State -->
+                <div class="state-view empty-state active" id="state-empty">
+                    <i class="ph-duotone ph-video"></i>
+                    <p>Upload a video and provide a prompt to see the magic happen.</p>
+                </div>
+
+                <!-- Loading State -->
+                <div class="state-view loading-state" id="state-loading">
+                    <div class="premium-spinner">
+                        <div class="ring"></div>
+                        <div class="ring"></div>
+                        <div class="ring"></div>
+                    </div>
+                    <h3>Processing Video...</h3>
+                    <p class="loading-text">Extracting features & applying R³ loop <span class="dots">...</span></p>
+                </div>
+
+                <!-- Result State -->
+                <div class="state-view result-state" id="state-result">
+                    <div class="video-container">
+                        <video id="result-video" controls autoplay loop>
+                            <source src="" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <a href="#" id="download-btn" class="secondary-btn" download="segmented_result.mp4">
+                        <i class="ph-bold ph-download-simple"></i> Download Result
+                    </a>
+                </div>
+
+            </section>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
