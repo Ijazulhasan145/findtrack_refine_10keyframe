@@ -80,8 +80,8 @@ document.addEventListener('DOMContentLoaded', () => {
         showState(stateLoading);
 
         try {
-            // Call the FastAPI backend
-            const response = await fetch('http://localhost:8000/api/segment', {
+            // Call the FastAPI backend using a relative path so it works seamlessly with Ngrok
+            const response = await fetch('/api/segment', {
                 method: 'POST',
                 body: formData
             });
