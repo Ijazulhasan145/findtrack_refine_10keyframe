@@ -79,7 +79,9 @@ async def process_video(
         )
         
     except Exception as e:
-        print(f"❌ Error during processing: {str(e)}")
+        import traceback
+        print(f"❌ Error during processing:")
+        traceback.print_exc()
         raise HTTPException(status_code=500, detail=str(e))
     finally:
         # Cleanup uploaded input file
