@@ -60,7 +60,10 @@ class EvfSamModel(PreTrainedModel):
     
     @property
     def all_tied_weights_keys(self):
-        return getattr(self, "_tied_weights_keys", [])
+        keys = getattr(self, "_tied_weights_keys", None)
+        if not keys: return {}
+        if isinstance(keys, list): return {k: None for k in keys}
+        return keys
         
     def __init__(
         self,
