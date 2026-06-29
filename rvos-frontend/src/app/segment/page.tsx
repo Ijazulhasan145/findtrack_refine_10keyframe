@@ -22,7 +22,7 @@ export default function SegmentPage() {
     
     const formData = new FormData()
     formData.append("video", file)
-    formData.append("text_prompt", prompt)
+    formData.append("prompt", prompt)
     // Send tracking_type if needed, default is "text"
     
     try {
