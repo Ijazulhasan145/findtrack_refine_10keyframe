@@ -5,12 +5,28 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Download, RefreshCw, Share2, Info, CheckCircle2 } from "lucide-react"
 import Link from "next/link"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 export default function ResultPage() {
   const [downloaded, setDownloaded] = useState(false)
+  const [videoUrl, setVideoUrl] = useState("")
+  const [prompt, setPrompt] = useState("")
+
+  useEffect(() => {
+    // Load from local storage which was set by segment page
+    const storedUrl = localStorage.getItem('segmented_video_url')
+    const storedPrompt = localStorage.getItem('original_prompt')
+    if (storedUrl) setVideoUrl(storedUrl)
+    if (storedPrompt) setPrompt(storedPrompt)
+  }, [])
 
   const handleDownload = () => {
+    if (!videoUrl) return
+    const a = document.createElement('a')
+    a.href = videoUrl
+    a.download = 'segmented_result.mp4'
+    a.click()
+    
     setDownloaded(true)
     setTimeout(() => setDownloaded(false), 3000)
   }
@@ -39,22 +55,20 @@ export default function ResultPage() {
         <div className="grid md:grid-cols-3 gap-8">
           <div className="md:col-span-2 space-y-6">
             <Card className="overflow-hidden border-border/40 shadow-xl bg-black">
-              {/* Dummy video player using a placeholder image */}
               <div className="relative aspect-video flex items-center justify-center group">
-                <img 
-                  src="https://images.unsplash.com/photo-1544568100-847a948585b9?auto=format&fit=crop&q=80&w=1200" 
-                  alt="Result" 
-                  className="w-full h-full object-cover opacity-80"
-                />
-                <div className="absolute inset-0 bg-green-500/30 mix-blend-overlay"></div> {/* Simulate the mask overlay */}
-                <div className="absolute bottom-4 left-4 right-4 flex items-center gap-4 bg-black/60 backdrop-blur-md p-3 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
-                  <div className="h-2 flex-1 bg-white/30 rounded-full cursor-pointer">
-                    <div className="h-full w-1/3 bg-primary rounded-full relative">
-                      <div className="absolute right-0 top-1/2 -translate-y-1/2 h-3 w-3 bg-white rounded-full"></div>
-                    </div>
+                {videoUrl ? (
+                  <video 
+                    src={videoUrl} 
+                    className="w-full h-full object-cover" 
+                    controls 
+                    autoPlay 
+                    loop
+                  />
+                ) : (
+                  <div className="flex items-center justify-center h-full text-muted-foreground">
+                    No video loaded
                   </div>
-                  <span className="text-white text-xs font-medium">0:04 / 0:15</span>
-                </div>
+                )}
               </div>
             </Card>
 
@@ -80,7 +94,7 @@ export default function ResultPage() {
                 <div className="space-y-4">
                   <div>
                     <span className="text-xs text-muted-foreground uppercase font-bold tracking-wider">Original Prompt</span>
-                    <p className="mt-1 font-medium bg-muted/50 p-3 rounded-lg border border-border/50">"A dog running on grass"</p>
+                    <p className="mt-1 font-medium bg-muted/50 p-3 rounded-lg border border-border/50">"{prompt || 'No prompt provided'}"</p>
                   </div>
                   
                   <div className="grid grid-cols-2 gap-4">

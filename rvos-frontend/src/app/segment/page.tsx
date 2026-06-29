@@ -14,35 +14,52 @@ export default function SegmentPage() {
   const [status, setStatus] = useState<"idle" | "uploading" | "processing" | "done">("idle")
   const [progress, setProgress] = useState(0)
 
-  const handleProcess = () => {
+  const handleProcess = async () => {
     if (!file || !prompt) return
     
     setStatus("uploading")
-    // Simulate upload
-    let p = 0
-    const int1 = setInterval(() => {
-      p += 10
-      setProgress(p)
-      if (p >= 100) {
-        clearInterval(int1)
-        setStatus("processing")
-        setProgress(0)
-        
-        // Simulate processing
-        let p2 = 0
-        const int2 = setInterval(() => {
-          p2 += 5
-          setProgress(p2)
-          if (p2 >= 100) {
-            clearInterval(int2)
-            setStatus("done")
-            setTimeout(() => {
-              window.location.href = "/result"
-            }, 1000)
+    setProgress(30)
+    
+    const formData = new FormData()
+    formData.append("video", file)
+    formData.append("text_prompt", prompt)
+    // Send tracking_type if needed, default is "text"
+    
+    try {
+      setStatus("processing")
+      setProgress(60)
+      
+      const response = await fetch('/api/segment', {
+          method: 'POST',
+          body: formData,
+          headers: {
+              'ngrok-skip-browser-warning': 'true'
           }
-        }, 300)
+      })
+      
+      if (!response.ok) {
+        throw new Error('Processing failed on server')
       }
-    }, 150)
+      
+      const blob = await response.blob()
+      const resultUrl = URL.createObjectURL(blob)
+      
+      // Store result in local storage for the result page
+      localStorage.setItem('segmented_video_url', resultUrl)
+      localStorage.setItem('original_prompt', prompt)
+      
+      setProgress(100)
+      setStatus("done")
+      setTimeout(() => {
+        window.location.href = "/result"
+      }, 1000)
+      
+    } catch (error) {
+      console.error(error)
+      alert("Error processing video. Please check the backend console.")
+      setStatus("idle")
+      setProgress(0)
+    }
   }
 
   return (
