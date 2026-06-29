@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { Sparkles, Github, Twitter, Linkedin } from "lucide-react"
+import { Sparkles, Globe } from "lucide-react"
 
 export function Footer() {
   return (
@@ -15,9 +15,7 @@ export function Footer() {
               Next-generation Referring Video Object Segmentation powered by advanced AI models.
             </p>
             <div className="flex gap-4">
-              <a href="#" className="text-muted-foreground hover:text-foreground"><Twitter className="h-5 w-5" /></a>
-              <a href="#" className="text-muted-foreground hover:text-foreground"><Github className="h-5 w-5" /></a>
-              <a href="#" className="text-muted-foreground hover:text-foreground"><Linkedin className="h-5 w-5" /></a>
+              <a href="#" className="text-muted-foreground hover:text-foreground"><Globe className="h-5 w-5" /></a>
             </div>
           </div>
           
