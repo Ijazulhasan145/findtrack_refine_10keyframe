@@ -6,14 +6,23 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Search, Filter, Download, Trash2, Calendar, Play } from "lucide-react"
 import Link from "next/link"
+import { useState } from "react"
+
+const INITIAL_HISTORY = [
+  { id: 1, prompt: "A dog running on grass", date: "June 29, 2026", time: "13:45", status: "completed", thumbnail: "https://images.unsplash.com/photo-1544568100-847a948585b9?auto=format&fit=crop&q=80&w=300" },
+  { id: 2, prompt: "Red car driving on highway", date: "June 28, 2026", time: "09:20", status: "completed", thumbnail: "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&q=80&w=300" },
+  { id: 3, prompt: "Person dancing in the rain", date: "June 27, 2026", time: "18:05", status: "failed", thumbnail: "https://images.unsplash.com/photo-1534065604812-706f9d372e36?auto=format&fit=crop&q=80&w=300" },
+  { id: 4, prompt: "Bird flying across the sky", date: "June 25, 2026", time: "11:10", status: "completed", thumbnail: "https://images.unsplash.com/photo-1444464666168-49b626f86278?auto=format&fit=crop&q=80&w=300" },
+]
 
 export default function HistoryPage() {
-  const historyData = [
-    { id: 1, prompt: "A dog running on grass", date: "June 29, 2026", time: "13:45", status: "completed", thumbnail: "https://images.unsplash.com/photo-1544568100-847a948585b9?auto=format&fit=crop&q=80&w=300" },
-    { id: 2, prompt: "Red car driving on highway", date: "June 28, 2026", time: "09:20", status: "completed", thumbnail: "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&q=80&w=300" },
-    { id: 3, prompt: "Person dancing in the rain", date: "June 27, 2026", time: "18:05", status: "failed", thumbnail: "https://images.unsplash.com/photo-1534065604812-706f9d372e36?auto=format&fit=crop&q=80&w=300" },
-    { id: 4, prompt: "Bird flying across the sky", date: "June 25, 2026", time: "11:10", status: "completed", thumbnail: "https://images.unsplash.com/photo-1444464666168-49b626f86278?auto=format&fit=crop&q=80&w=300" },
-  ]
+  const [historyData, setHistoryData] = useState(INITIAL_HISTORY)
+
+  const handleDelete = (e: React.MouseEvent, id: number) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setHistoryData(prev => prev.filter(item => item.id !== id))
+  }
 
   return (
     <DashboardLayout>
@@ -64,10 +73,10 @@ export default function HistoryPage() {
                     </div>
                     
                     <div className="flex gap-2 w-full md:w-auto z-30">
-                      <Button variant="secondary" size="sm" disabled={item.status === 'failed'} className="flex-1 md:flex-none">
+                      <Button variant="secondary" size="sm" disabled={item.status === 'failed'} className="flex-1 md:flex-none" onClick={(e) => { e.preventDefault(); e.stopPropagation() }}>
                         <Download className="mr-2 h-4 w-4" /> Download
                       </Button>
-                      <Button variant="ghost" size="icon" className="text-destructive hover:text-destructive hover:bg-destructive/10 shrink-0">
+                      <Button variant="ghost" size="icon" className="text-destructive hover:text-destructive hover:bg-destructive/10 shrink-0" onClick={(e) => handleDelete(e, item.id)}>
                         <Trash2 className="h-4 w-4" />
                       </Button>
                     </div>
