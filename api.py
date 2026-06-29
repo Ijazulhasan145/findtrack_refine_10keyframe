@@ -89,7 +89,23 @@ async def process_video(
             os.remove(input_path)
 
 # Serve the static frontend files (HTML/CSS/JS)
-app.mount("/", StaticFiles(directory="frontend", html=True), name="frontend")
+@app.get("/{full_path:path}")
+async def serve_frontend(full_path: str):
+    if not full_path or full_path == "/":
+        return FileResponse("frontend/index.html")
+        
+    # Check if the exact file exists (e.g. css, js, images)
+    file_path = os.path.join("frontend", full_path)
+    if os.path.exists(file_path) and os.path.isfile(file_path):
+        return FileResponse(file_path)
+        
+    # Check if a .html version exists (for Next.js routes like /dashboard -> dashboard.html)
+    html_path = f"{file_path}.html"
+    if os.path.exists(html_path) and os.path.isfile(html_path):
+        return FileResponse(html_path)
+        
+    # Fallback to 404
+    return FileResponse("frontend/404.html", status_code=404)
 
 if __name__ == "__main__":
     import uvicorn
