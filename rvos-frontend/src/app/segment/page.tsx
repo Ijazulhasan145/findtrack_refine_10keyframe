@@ -6,9 +6,11 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { UploadCloud, Wand2, RefreshCw, CheckCircle2 } from "lucide-react"
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
 
 export default function SegmentPage() {
+  const router = useRouter()
   const [file, setFile] = useState<File | null>(null)
   const [prompt, setPrompt] = useState("")
   const [status, setStatus] = useState<"idle" | "uploading" | "processing" | "done">("idle")
@@ -51,7 +53,7 @@ export default function SegmentPage() {
       setProgress(100)
       setStatus("done")
       setTimeout(() => {
-        window.location.href = "/result"
+        router.push("/result")
       }, 1000)
       
     } catch (error) {
