@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Search, Filter, Download, Trash2, Calendar, Play } from "lucide-react"
+import Link from "next/link"
 
 export default function HistoryPage() {
   const historyData = [
@@ -39,7 +40,8 @@ export default function HistoryPage() {
 
         <div className="space-y-4">
           {historyData.map((item) => (
-            <Card key={item.id} className="overflow-hidden border-border/40 hover:shadow-md transition-shadow">
+            <Card key={item.id} className="overflow-hidden border-border/40 hover:shadow-md transition-shadow relative">
+              <Link href="/result" className="absolute inset-0 z-10" />
               <div className="flex flex-col sm:flex-row">
                 <div className="relative w-full sm:w-48 h-32 shrink-0 bg-muted">
                   <img src={item.thumbnail} alt={item.prompt} className="object-cover w-full h-full" />
@@ -47,7 +49,7 @@ export default function HistoryPage() {
                     <Play className="h-8 w-8 text-white fill-white" />
                   </div>
                 </div>
-                <CardContent className="flex-1 p-6 flex flex-col justify-center">
+                <CardContent className="flex-1 p-6 flex flex-col justify-center relative z-20">
                   <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                     <div>
                       <div className="flex items-center gap-3 mb-2">
@@ -61,7 +63,7 @@ export default function HistoryPage() {
                       <p className="text-sm text-muted-foreground">{item.date} at {item.time}</p>
                     </div>
                     
-                    <div className="flex gap-2 w-full md:w-auto">
+                    <div className="flex gap-2 w-full md:w-auto z-30">
                       <Button variant="secondary" size="sm" disabled={item.status === 'failed'} className="flex-1 md:flex-none">
                         <Download className="mr-2 h-4 w-4" /> Download
                       </Button>
