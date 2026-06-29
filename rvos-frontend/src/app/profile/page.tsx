@@ -37,7 +37,7 @@ export default function ProfilePage() {
                   <Label htmlFor="email">Email Address</Label>
                   <Input id="email" type="email" defaultValue="johndoe@example.com" />
                 </div>
-                <Button>Save Changes</Button>
+                <Button onClick={() => alert('Profile updated successfully!')}>Save Changes</Button>
               </CardContent>
             </Card>
 
@@ -59,7 +59,7 @@ export default function ProfilePage() {
                   <Label htmlFor="confirmPassword">Confirm New Password</Label>
                   <Input id="confirmPassword" type="password" />
                 </div>
-                <Button variant="secondary">Update Password</Button>
+                <Button variant="secondary" onClick={() => alert('Password updated successfully!')}>Update Password</Button>
               </CardContent>
             </Card>
           </div>
@@ -80,8 +80,12 @@ export default function ProfilePage() {
                   <li className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-primary" /> Priority GPU</li>
                 </ul>
                 <div className="pt-4 flex flex-col gap-3">
-                  <Button className="w-full bg-gradient-to-r from-blue-600 to-purple-600">Manage Subscription</Button>
-                  <Button variant="outline" className="w-full text-destructive hover:bg-destructive/10 hover:text-destructive border-destructive/20">Cancel Plan</Button>
+                  <Button className="w-full bg-gradient-to-r from-blue-600 to-purple-600" onClick={() => alert('Redirecting to secure payment portal (Stripe)...')}>Manage Subscription</Button>
+                  <Button variant="outline" className="w-full text-destructive hover:bg-destructive/10 hover:text-destructive border-destructive/20" onClick={() => {
+                    if (confirm('Are you sure you want to cancel your Pro plan?')) {
+                      alert('Your plan has been scheduled for cancellation at the end of the billing cycle.')
+                    }
+                  }}>Cancel Plan</Button>
                 </div>
               </CardContent>
             </Card>

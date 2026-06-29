@@ -68,8 +68,9 @@ export default function DashboardPage() {
           </div>
           <div className="grid gap-6 md:grid-cols-3">
             {recentGenerations.map((gen) => (
-              <Card key={gen.id} className="overflow-hidden group cursor-pointer transition-all hover:shadow-md border-border/40">
-                <div className="relative aspect-video overflow-hidden">
+              <Link key={gen.id} href="/result">
+                <Card className="overflow-hidden group cursor-pointer transition-all hover:shadow-md border-border/40">
+                  <div className="relative aspect-video overflow-hidden">
                   <img src={gen.thumbnail} alt={gen.prompt} className="object-cover w-full h-full transition-transform group-hover:scale-105" />
                   <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                     <Play className="h-10 w-10 text-white fill-white" />
@@ -86,6 +87,7 @@ export default function DashboardPage() {
                   <p className="text-xs text-muted-foreground">{gen.date}</p>
                 </CardContent>
               </Card>
+              </Link>
             ))}
           </div>
         </div>

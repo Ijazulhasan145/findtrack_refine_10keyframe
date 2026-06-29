@@ -106,7 +106,9 @@ export default function LandingPage() {
                   <li className="flex items-center"><CheckCircle2 className="h-5 w-5 text-green-500 mr-3" /> Max video length: 15 seconds</li>
                   <li className="flex items-center"><CheckCircle2 className="h-5 w-5 text-green-500 mr-3" /> Standard queue priority</li>
                 </ul>
-                <Button variant="outline" className="w-full">Get Started</Button>
+                <Button variant="outline" className="w-full" asChild>
+                  <Link href="/signup">Get Started</Link>
+                </Button>
               </div>
               
               <div className="border border-primary bg-primary/5 rounded-3xl p-8 flex flex-col relative overflow-hidden">
@@ -120,7 +122,9 @@ export default function LandingPage() {
                   <li className="flex items-center"><CheckCircle2 className="h-5 w-5 text-primary mr-3" /> Priority GPU processing</li>
                   <li className="flex items-center"><CheckCircle2 className="h-5 w-5 text-primary mr-3" /> API Access</li>
                 </ul>
-                <Button className="w-full bg-gradient-to-r from-blue-600 to-purple-600">Upgrade to Pro</Button>
+                <Button className="w-full bg-gradient-to-r from-blue-600 to-purple-600" asChild>
+                  <Link href="/signup">Upgrade to Pro</Link>
+                </Button>
               </div>
             </div>
           </div>

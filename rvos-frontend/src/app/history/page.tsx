@@ -38,10 +38,10 @@ export default function HistoryPage() {
             <Input className="pl-10" placeholder="Search by prompt..." />
           </div>
           <div className="flex gap-3 w-full sm:w-auto">
-            <Button variant="outline" className="w-full sm:w-auto">
+            <Button variant="outline" className="w-full sm:w-auto" onClick={() => alert('Date picker modal would open here.')}>
               <Calendar className="mr-2 h-4 w-4" /> Date
             </Button>
-            <Button variant="outline" className="w-full sm:w-auto">
+            <Button variant="outline" className="w-full sm:w-auto" onClick={() => alert('Filter options would open here.')}>
               <Filter className="mr-2 h-4 w-4" /> Filter
             </Button>
           </div>
@@ -73,7 +73,7 @@ export default function HistoryPage() {
                     </div>
                     
                     <div className="flex gap-2 w-full md:w-auto z-30">
-                      <Button variant="secondary" size="sm" disabled={item.status === 'failed'} className="flex-1 md:flex-none" onClick={(e) => { e.preventDefault(); e.stopPropagation() }}>
+                      <Button variant="secondary" size="sm" disabled={item.status === 'failed'} className="flex-1 md:flex-none" onClick={(e) => { e.preventDefault(); e.stopPropagation(); alert('Downloading video directly to your device...') }}>
                         <Download className="mr-2 h-4 w-4" /> Download
                       </Button>
                       <Button variant="ghost" size="icon" className="text-destructive hover:text-destructive hover:bg-destructive/10 shrink-0" onClick={(e) => handleDelete(e, item.id)}>
@@ -88,7 +88,7 @@ export default function HistoryPage() {
         </div>
         
         <div className="flex justify-center pt-4">
-          <Button variant="outline">Load More</Button>
+          <Button variant="outline" onClick={() => alert('No more history available.')}>Load More</Button>
         </div>
       </div>
     </DashboardLayout>

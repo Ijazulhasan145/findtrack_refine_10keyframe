@@ -42,7 +42,7 @@ export default function ResultPage() {
             <h1 className="text-3xl font-bold tracking-tight">Segmentation Result</h1>
           </div>
           <div className="flex gap-3">
-            <Button variant="outline" onClick={() => {}}>
+            <Button variant="outline" onClick={() => alert('Link copied to clipboard!')}>
               <Share2 className="mr-2 h-4 w-4" /> Share
             </Button>
             <Button className="bg-gradient-to-r from-blue-600 to-purple-600" onClick={handleDownload} disabled={downloaded}>
@@ -78,7 +78,7 @@ export default function ResultPage() {
                   <RefreshCw className="mr-2 h-4 w-4" /> Generate Another
                 </Button>
               </Link>
-              <Button variant="outline">
+              <Button variant="outline" onClick={() => alert('Thanks for reporting! Our team will look into this issue.')}>
                 Report Issue
               </Button>
             </div>
