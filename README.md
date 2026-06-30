@@ -1,3 +1,7 @@
+
+
+https://github.com/user-attachments/assets/8231ecef-d571-4111-98dc-4e79d81ca76b
+
 # FindTrack-R³
 
 **FindTrack-R³: Enhancing Decoupled Referring Video Object Segmentation with an R³-Loop and Soft Semantic Alignment**
