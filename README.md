@@ -58,7 +58,27 @@ To build a static version to serve with FastAPI:
 cd rvos-frontend
 npm run build
 ```
+**Table 1. Quantitative evaluation on the Ref-YouTube-VOS validation set, Ref-DAVIS17 dataset, and MeViS validation set.**
 
+| Method | Publication | Ref-YouTube-VOS ($\mathcal{J} \& \mathcal{F}$) | $\mathcal{J}$ | $\mathcal{F}$ | Ref-DAVIS17 ($\mathcal{J} \& \mathcal{F}$) | $\mathcal{J}$ | $\mathcal{F}$ | MeViS ($\mathcal{J} \& \mathcal{F}$) | $\mathcal{J}$ | $\mathcal{F}$ |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| ReferFormer [48] | CVPR'22 | 62.9 | 61.3 | 64.6 | 61.1 | 58.1 | 64.1 | 31.0 | 29.8 | 32.2 |
+| SgMg [34] | ICCV'23 | 65.7 | 63.9 | 67.4 | 63.3 | 60.6 | 66.0 | - | - | - |
+| HTML [19] | ICCV'23 | 63.4 | 61.5 | 65.2 | 62.1 | 59.2 | 65.1 | - | - | - |
+| SOC [32] | NeurIPS'23 | 67.3 | 65.3 | 69.3 | 65.8 | 62.5 | 69.1 | - | - | - |
+| VLT+TC [15] | TPAMI'23 | 62.7 | - | - | 60.3 | - | - | 35.5 | 33.6 | 37.3 |
+| MUTR [51] | AAAI'24 | 68.4 | 66.4 | 70.4 | 68.0 | 64.8 | 71.3 | - | - | - |
+| LoSh [54] | CVPR'24 | 67.2 | 65.4 | 69.0 | 64.3 | 61.8 | 66.8 | - | - | - |
+| DsHmp [20] | CVPR'24 | 67.1 | 65.0 | 69.1 | 64.9 | 61.7 | 68.1 | 46.4 | 43.0 | 49.8 |
+| VD-IT [58] | ECCV'24 | 66.5 | 64.4 | 68.5 | 69.4 | 66.2 | 72.6 | - | - | - |
+| DMVS [18] | CVPR'25 | 64.3 | 62.4 | 66.2 | 65.2 | 62.2 | 68.2 | 48.6 | 44.2 | 52.9 |
+| SSA [37] | CVPR'25 | 64.3 | 62.2 | 66.4 | 67.3 | 64.0 | 70.7 | 48.6 | 44.0 | 53.2 |
+| SAMWISE [13] | CVPR'25 | 69.2 | 67.8 | 70.6 | 70.6 | 67.4 | 74.5 | 49.5 | 46.6 | 52.4 |
+| FindTrack (N = 5) | ICCVW'25 | 70.3 | 68.6 | 72.0 | 74.2 | 69.9 | 78.5 | 47.0 | 44.3 | 49.7 |
+| FindTrack (N = 10) | ICCVW'25 | 70.3 | 68.6 | 71.9 | 73.7 | 69.4 | 78.0 | 48.2 | 45.6 | 50.7 |
+| FindTrack++ (N = 5) | ICCVW'25 | 73.1 | 71.2 | 75.0 | - | - | - | 52.1 | 49.4 | 54.9 |
+| FindTrack++ (N = 10) | ICCVW'25 | 73.7 | 71.8 | 75.7 | - | - | - | 53.2 | 50.5 | 55.9 |
+| **FindTrack-R³ (Ours)** | **2026** | **[78.48]** | **[76.99]** | **[79.98]** | **[75.63]** | **[71.67]** | **[79.67]** | **[48.3]** | **[45.6]** | **[51.0]** |
 ## Contact
 Code and models are only available for non-commercial research purposes 
 ijazu4412@gmail.com
