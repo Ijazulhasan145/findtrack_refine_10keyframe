@@ -35,6 +35,10 @@ For Ref-YouTube-VOS dataset:
 ```
 deepspeed --num_gpus 4 train_ytvos.py 
 ```
+For Ref-Devis17 dataset:
+```
+deepspeed --num_gpus 4 train_ytvos.py 
+```
 
 For MeViS dataset:
 ```
@@ -95,5 +99,5 @@ npm run build
 Code and models are only available for non-commercial research purposes.\
 For questions or inquiries, feel free to contact:
 ```
-E-mail: suhwanx@gmail.com
+E-mail: ijazu4412@gmail.com
 ```
