@@ -6,15 +6,7 @@ This is the official PyTorch implementation of our paper:
 > Suhwan Cho*, Seunghoon Lee*, Minhyeok Lee, Jungho Lee, Sangyoun Lee\
 > Link: [[ICCVW]](https://openaccess.thecvf.com/content/ICCV2025W/LSVOS/papers/Cho_Find_First_Track_Next_Decoupling_Identification_and_Propagation_in_Referring_ICCVW_2025_paper.pdf) [[arXiv]](https://arxiv.org/abs/2503.03492)
 
-<img src="https://github.com/user-attachments/assets/a57cd78a-6f34-4fa7-bddc-762e5e90a71b" width=800>
-
 You can also explore other related works at [awesome-video-object segmentation](https://github.com/suhwan-cho/awesome-video-object-segmentation).
-
-
-## Demo Video
-
-https://github.com/user-attachments/assets/e5475442-f2fe-4899-84dd-8ae7ef22a7f2
-
 
 ## Abstract
 Existing referring VOS methods typically fuse visual and textual features in a highly entangled manner, processing multi-modal information jointly. 
@@ -67,17 +59,29 @@ Verify the following before running:\
 ✅ Pre-trained model path
 
 
-### Gradio Demo
-You can use the web demo with your own video!
+### Modern Web Application (FastAPI + Next.js)
+This repository includes a production-ready, modern AI SaaS web application that provides a beautiful UI for segmenting objects.
 
-<img src="https://github.com/user-attachments/assets/74eb0778-84dd-4f84-b081-3bfae8de91d7" width=600>
-
-Run the Gradio demo with:
+#### 1. Start the Backend (FastAPI)
+The backend manages the Cutie and EVF-SAM models, serving the Next.js static files concurrently.
+```bash
+python api.py
 ```
-python demo.py
+This will start Uvicorn at `http://0.0.0.0:8000`.
+
+#### 2. Start the Frontend (Next.js)
+If you need to make changes to the frontend UI, navigate to the `rvos-frontend` directory and start the development server:
+```bash
+cd rvos-frontend
+npm install
+npm run dev
 ```
 
-
+To build a static version to serve with FastAPI:
+```bash
+cd rvos-frontend
+npm run build
+```
 ## Attachments
 [Pre-computed results](https://drive.google.com/file/d/1rhk3gWbuUem3-XvtlFJG-SyehNjX3zL_/view?usp=drive_link)
 
