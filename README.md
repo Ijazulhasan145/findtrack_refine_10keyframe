@@ -80,6 +80,7 @@ npm run build
 | FindTrack++ (N = 10) | ICCVW'25 | 73.7 | 71.8 | 75.7 | - | - | - | 53.2 | 50.5 | 55.9 |
 | **FindTrack-R³ (Ours)** | **2026** | **[78.48]** | **[76.99]** | **[79.98]** | **[75.63]** | **[71.67]** | **[79.67]** | **[48.3]** | **[45.6]** | **[51.0]** |
 
+
 ## Contact
 Code and models are only available for non-commercial research purposes 
 ijazu4412@gmail.com
