@@ -3,6 +3,9 @@
 
 https://github.com/user-attachments/assets/8231ecef-d571-4111-98dc-4e79d81ca76b
 
+<img width="1536" height="1024" alt="ChatGPT Image Jun 30, 2026, 11_29_35 PM" src="https://github.com/user-attachments/assets/b63da927-bec4-48ef-a9ff-592a4d74e348" />
+
+
 # FindTrack-R³
 
 **FindTrack-R³: Enhancing Decoupled Referring Video Object Segmentation with an R³-Loop and Soft Semantic Alignment**
