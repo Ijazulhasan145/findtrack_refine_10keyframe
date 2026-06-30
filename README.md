@@ -60,7 +60,7 @@ npm run build
 ```
 **Table 1. Quantitative evaluation on the Ref-YouTube-VOS validation set, Ref-DAVIS17 dataset, and MeViS validation set.**
 
-| Method | Publication | Ref-YouTube-VOS ($\mathcal{J} \& \mathcal{F}$) | $\mathcal{J}$ | $\mathcal{F}$ | Ref-DAVIS17 ($\mathcal{J} \& \mathcal{F}$) | $\mathcal{J}$ | $\mathcal{F}$ | MeViS ($\mathcal{J} \& \mathcal{F}$) | $\mathcal{J}$ | $\mathcal{F}$ |
+| Method | Publication | Ref-YouTube-VOS (J&F) | J | F | Ref-DAVIS17 (J&F) | J | F | MeViS (J&F) | J | F |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | ReferFormer [48] | CVPR'22 | 62.9 | 61.3 | 64.6 | 61.1 | 58.1 | 64.1 | 31.0 | 29.8 | 32.2 |
 | SgMg [34] | ICCV'23 | 65.7 | 63.9 | 67.4 | 63.3 | 60.6 | 66.0 | - | - | - |
@@ -79,6 +79,7 @@ npm run build
 | FindTrack++ (N = 5) | ICCVW'25 | 73.1 | 71.2 | 75.0 | - | - | - | 52.1 | 49.4 | 54.9 |
 | FindTrack++ (N = 10) | ICCVW'25 | 73.7 | 71.8 | 75.7 | - | - | - | 53.2 | 50.5 | 55.9 |
 | **FindTrack-R³ (Ours)** | **2026** | **[78.48]** | **[76.99]** | **[79.98]** | **[75.63]** | **[71.67]** | **[79.67]** | **[48.3]** | **[45.6]** | **[51.0]** |
+
 ## Contact
 Code and models are only available for non-commercial research purposes 
 ijazu4412@gmail.com
