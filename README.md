@@ -55,4 +55,5 @@ npm run build
 ```
 
 ## Contact
-Code and models are only available for non-commercial research purposes.
+Code and models are only available for non-commercial research purposes 
+ijazu4412@gmail.com
