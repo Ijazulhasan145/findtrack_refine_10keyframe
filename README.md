@@ -1,75 +1,37 @@
-# FindTrack
+# FindTrack-R³
 
-This is the official PyTorch implementation of our paper:
+**FindTrack-R³: Enhancing Decoupled Referring Video Object Segmentation with an R³-Loop and Soft Semantic Alignment**
 
-> **Find First, Track Next: Decoupling Identification and Propagation in Referring Video Object Segmentation**, *ICCVW 2025*\
-> Suhwan Cho*, Seunghoon Lee*, Minhyeok Lee, Jungho Lee, Sangyoun Lee\
-> Link: [[ICCVW]](https://openaccess.thecvf.com/content/ICCV2025W/LSVOS/papers/Cho_Find_First_Track_Next_Decoupling_Identification_and_Propagation_in_Referring_ICCVW_2025_paper.pdf) [[arXiv]](https://arxiv.org/abs/2503.03492)
-
-You can also explore other related works at [awesome-video-object segmentation](https://github.com/suhwan-cho/awesome-video-object-segmentation).
+This is the official repository for the FindTrack-R³ framework. It extends the original decoupled RVOS pipeline by integrating an innovative **R³-Loop (Refine, Requery, Reinforce)** and **Soft Semantic Alignment (SSA)** to guarantee high-quality starting reference masks and maintain strict temporal consistency across the video.
 
 ## Abstract
-Existing referring VOS methods typically fuse visual and textual features in a highly entangled manner, processing multi-modal information jointly. 
-However, this entanglement often leads to challenges in resolving ambiguous target identification and maintaining consistent mask propagation across frames.
-To address these issues, we propose **a decoupled framework** that explicitly separates object identification from mask propagation. 
-The key frame is adaptively selected based on segmentation confidence and vision-text alignment, establishing **a reliable anchor for propagation**.
-
+Existing referring VOS methods typically fuse visual and textual features in a highly entangled manner, which leads to challenges in resolving ambiguous target identification and maintaining consistent mask propagation across frames.
+To address these issues, we propose **FindTrack-R³**, an enhanced decoupled framework that explicitly separates object identification from mask propagation.
+- **Refine & Requery**: We apply Entropy-based Refinement to filter uncertain boundary pixels from the initial EVF-SAM mask, extract a tight bounding box, and requery SAM to produce a perfectly sharp starting anchor.
+- **Reinforce (SSA)**: During tracking (via Cutie), we extract L2-normalized frame embeddings and apply Soft Semantic Alignment (SSA) loss against a lightweight rolling FIFO queue. This prevents the tracking memory from drifting to distractors during partial or full occlusions.
 
 ## Setup
-1\. Download the datasets:
-[Ref-YouTube-VOS](https://codalab.lisn.upsaclay.fr/competitions/3282),
-[Ref-DAVIS17](https://www.mpi-inf.mpg.de/departments/computer-vision-and-machine-learning/research/video-segmentation/video-object-segmentation-with-language-referring-expressions),
-[MeViS](https://codalab.lisn.upsaclay.fr/competitions/15094).
+1. Download the datasets: [Ref-YouTube-VOS](https://codalab.lisn.upsaclay.fr/competitions/3282), [Ref-DAVIS17](https://www.mpi-inf.mpg.de/departments/computer-vision-and-machine-learning/research/video-segmentation/video-object-segmentation-with-language-referring-expressions), [MeViS](https://codalab.lisn.upsaclay.fr/competitions/15094).
+2. Download [Alpha-CLIP](https://drive.google.com/file/d/1dG_j98hh7AFvhSADlhp9CpoNY-9rBHoc/view?usp=drive_link) weights and place it in the `weights/` directory.
 
-
-2\. Download [Alpha-CLIP](https://drive.google.com/file/d/1dG_j98hh7AFvhSADlhp9CpoNY-9rBHoc/view?usp=drive_link) weights and place it in the ``weights/`` directory.
-
-
-## Running 
-
-
-### Training (optional)
-FindTrack works well in a training-free manner, but fine-tuning on specific datasets can improve performance further.
-
-For Ref-YouTube-VOS dataset:
-```
-deepspeed --num_gpus 4 train_ytvos.py 
-```
-For Ref-Devis17 dataset:
-```
-deepspeed --num_gpus 4 train_ytvos.py 
-```
-
-For MeViS dataset:
-```
-deepspeed --num_gpus 4 train_mevis.py 
-```
-
+## Running
 
 ### Testing
 For Ref-YouTube-VOS dataset:
-```
+```bash
 python run_ytvos.py
 ```
-
 For MeViS dataset:
-```
+```bash
 python run_mevis.py
 ```
-
 For Ref-DAVIS17 dataset:
-```
+```bash
 python run_davis.py
 ```
 
-Verify the following before running:\
-✅ Testing dataset selection\
-✅ GPU availability and configuration\
-✅ Pre-trained model path
-
-
 ### Modern Web Application (FastAPI + Next.js)
-This repository includes a production-ready, modern AI SaaS web application that provides a beautiful UI for segmenting objects.
+This repository includes a production-ready, modern AI SaaS web application that provides a beautiful UI for segmenting objects using the FindTrack-R³ pipeline.
 
 #### 1. Start the Backend (FastAPI)
 The backend manages the Cutie and EVF-SAM models, serving the Next.js static files concurrently.
@@ -91,13 +53,6 @@ To build a static version to serve with FastAPI:
 cd rvos-frontend
 npm run build
 ```
-## Attachments
-[Pre-computed results](https://drive.google.com/file/d/1rhk3gWbuUem3-XvtlFJG-SyehNjX3zL_/view?usp=drive_link)
-
 
 ## Contact
-Code and models are only available for non-commercial research purposes.\
-For questions or inquiries, feel free to contact:
-```
-E-mail: ijazu4412@gmail.com
-```
+Code and models are only available for non-commercial research purposes.
