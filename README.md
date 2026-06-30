@@ -1,14 +1,11 @@
- <img width="1358" height="630" alt="Screenshot 2026-06-30 111637" src="https://github.com/user-attachments/assets/f137e080-6854-4743-bc74-702954d0de03" />
-
-
-https://github.com/user-attachments/assets/8231ecef-d571-4111-98dc-4e79d81ca76b
-
-
 **FindTrack-R³: Enhancing Decoupled Referring Video Object Segmentation with an R³-Loop and Soft Semantic Alignment**
 
 <img width="1536" height="1024" alt="ChatGPT Image Jun 30, 2026, 11_29_35 PM" src="https://github.com/user-attachments/assets/b63da927-bec4-48ef-a9ff-592a4d74e348" />
 
 This is the official repository for the FindTrack-R³ framework. It extends the original decoupled RVOS pipeline by integrating an innovative **R³-Loop (Refine, Requery, Reinforce)** and **Soft Semantic Alignment (SSA)** to guarantee high-quality starting reference masks and maintain strict temporal consistency across the video.
+
+##Demo Video
+https://github.com/user-attachments/assets/8231ecef-d571-4111-98dc-4e79d81ca76b
 
 ## Abstract
 Existing referring VOS methods typically fuse visual and textual features in a highly entangled manner, which leads to challenges in resolving ambiguous target identification and maintaining consistent mask propagation across frames.
@@ -35,6 +32,7 @@ For Ref-DAVIS17 dataset:
 ```bash
 python run_davis.py
 ```
+ <img width="1358" height="630" alt="Screenshot 2026-06-30 111637" src="https://github.com/user-attachments/assets/f137e080-6854-4743-bc74-702954d0de03" />
 
 ### Modern Web Application (FastAPI + Next.js)
 This repository includes a production-ready, modern AI SaaS web application that provides a beautiful UI for segmenting objects using the FindTrack-R³ pipeline.
