@@ -53,6 +53,11 @@ For MeViS dataset:
 python run_mevis.py
 ```
 
+For Ref-DAVIS17 dataset:
+```
+python run_davis.py
+```
+
 Verify the following before running:\
 ✅ Testing dataset selection\
 ✅ GPU availability and configuration\
