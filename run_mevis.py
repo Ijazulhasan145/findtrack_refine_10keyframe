@@ -173,9 +173,18 @@ def test():
                     # --- SSA Drift Prevention ---
                     temp_mask = processor.output_prob_to_mask(mask_prob).float()
                     bin_mask = (temp_mask > 0).float()
+                    
+                    # Foolproof shape correction to [1, H, W]
+                    while bin_mask.dim() < 3:
+                        bin_mask = bin_mask.unsqueeze(0)
+                    while bin_mask.dim() > 3:
+                        bin_mask = bin_mask.squeeze(0)
+                    if bin_mask.shape[0] > 1:
+                        bin_mask = bin_mask[-1:]
+                        
                     if bin_mask.sum() > 0:
                         current_clip_img = imgs_clip[i].unsqueeze(0).cuda()
-                        current_alpha = clip_preprocess_mask(bin_mask.unsqueeze(0)).cuda()
+                        current_alpha = clip_preprocess_mask(bin_mask).cuda()
                         current_feature = clip.visual(current_clip_img, current_alpha.unsqueeze(0))
                         current_feature = current_feature / current_feature.norm(dim=-1, keepdim=True)
                         
@@ -215,9 +224,18 @@ def test():
                     # --- SSA Drift Prevention ---
                     temp_mask = processor.output_prob_to_mask(mask_prob).float()
                     bin_mask = (temp_mask > 0).float()
+                    
+                    # Foolproof shape correction to [1, H, W]
+                    while bin_mask.dim() < 3:
+                        bin_mask = bin_mask.unsqueeze(0)
+                    while bin_mask.dim() > 3:
+                        bin_mask = bin_mask.squeeze(0)
+                    if bin_mask.shape[0] > 1:
+                        bin_mask = bin_mask[-1:]
+                        
                     if bin_mask.sum() > 0:
                         current_clip_img = imgs_clip[i].unsqueeze(0).cuda()
-                        current_alpha = clip_preprocess_mask(bin_mask.unsqueeze(0)).cuda()
+                        current_alpha = clip_preprocess_mask(bin_mask).cuda()
                         current_feature = clip.visual(current_clip_img, current_alpha.unsqueeze(0))
                         current_feature = current_feature / current_feature.norm(dim=-1, keepdim=True)
                         
