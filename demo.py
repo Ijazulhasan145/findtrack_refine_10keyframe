@@ -135,7 +135,8 @@ def segment_video(video_path, prompt, gpu):
                 mask_prob = processor.step(imgs_cutie[i].cuda())
                 
                 # --- SSA Drift Prevention ---
-                bin_mask = (mask_prob > 0.5).float()
+                temp_mask = processor.output_prob_to_mask(mask_prob).float()
+                bin_mask = (temp_mask > 0).float()
                 if bin_mask.sum() > 0:
                     current_clip_img = imgs_clip[i].unsqueeze(0).cuda()
                     current_alpha = clip_preprocess_mask(bin_mask.unsqueeze(0)).cuda()
@@ -182,7 +183,8 @@ def segment_video(video_path, prompt, gpu):
                 mask_prob = processor.step(imgs_cutie[i].cuda())
                 
                 # --- SSA Drift Prevention ---
-                bin_mask = (mask_prob > 0.5).float()
+                temp_mask = processor.output_prob_to_mask(mask_prob).float()
+                bin_mask = (temp_mask > 0).float()
                 if bin_mask.sum() > 0:
                     current_clip_img = imgs_clip[i].unsqueeze(0).cuda()
                     current_alpha = clip_preprocess_mask(bin_mask.unsqueeze(0)).cuda()
