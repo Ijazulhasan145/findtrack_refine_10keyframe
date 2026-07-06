@@ -117,7 +117,7 @@ def segment_video(video_path, prompt, gpu):
         # SSA Initialization
         # ---------------------------------------------------------
         anchor_clip_img = imgs_clip[best_i].unsqueeze(0).cuda()
-        anchor_alpha = clip_preprocess_mask(best_mask.unsqueeze(0).unsqueeze(0)).cuda()
+        anchor_alpha = clip_preprocess_mask(best_mask.unsqueeze(0)).cuda()
         anchor_feature = clip.visual(anchor_clip_img, anchor_alpha.unsqueeze(0))
         anchor_feature = anchor_feature / anchor_feature.norm(dim=-1, keepdim=True)
         ssa_history_queue = [anchor_feature]
