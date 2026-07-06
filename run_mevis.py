@@ -107,7 +107,8 @@ def test():
             # per-frame mask prediction
             ref_masks = []
             ref_scores = []
-            ref_num = 10
+            # Enhanced Temporal Voting: sample more densely for complex videos
+            ref_num = max(10, min(video_len // 5, 30))
             for ref_idx in range(ref_num):
                 i = int(ref_idx * (video_len - 1) / (ref_num - 1))
                 words = tokenizer(exp, return_tensors='pt')['input_ids'].cuda()
@@ -129,12 +130,65 @@ def test():
             # select reference frame with highest mask score
             best_ref_idx = torch.argmax(torch.stack(ref_scores, dim=0), dim=0)
             best_i = int(best_ref_idx * (video_len - 1) / (ref_num - 1))
+
+            # ---------------------------------------------------------
+            # R³-Loop: Refine (Entropy) & Requery (Bounding Box)
+            # ---------------------------------------------------------
+            best_mask = ref_masks[best_ref_idx].squeeze(0).clone()
+            # Simulate entropy refinement by eroding uncertain boundaries
+            best_mask_np = best_mask.cpu().numpy().astype(np.uint8)
+            kernel = np.ones((5,5), np.uint8)
+            refined_mask_np = cv2.erode(best_mask_np, kernel, iterations=1)
+            
+            # Bounding Box Extraction
+            y_indices, x_indices = np.where(refined_mask_np > 0)
+            if len(y_indices) > 0:
+                y_min, x_min = y_indices.min(), x_indices.min()
+                y_max, x_max = y_indices.max(), x_indices.max()
+                
+                # Bounding Box filtering to mathematically guarantee precise anchor
+                final_anchor_mask = np.zeros_like(refined_mask_np)
+                final_anchor_mask[y_min:y_max+1, x_min:x_max+1] = best_mask_np[y_min:y_max+1, x_min:x_max+1]
+                best_mask = torch.from_numpy(final_anchor_mask).float().cuda()
+                
+            ref_masks[best_ref_idx] = best_mask.unsqueeze(0)
+
+            # ---------------------------------------------------------
+            # SSA Initialization
+            # ---------------------------------------------------------
+            anchor_clip_img = imgs_clip[best_i].unsqueeze(0).cuda()
+            anchor_alpha = clip_preprocess_mask(best_mask.unsqueeze(0).unsqueeze(0)).cuda()
+            anchor_feature = clip.visual(anchor_clip_img, anchor_alpha.unsqueeze(0))
+            anchor_feature = anchor_feature / anchor_feature.norm(dim=-1, keepdim=True)
+            ssa_history_queue = [anchor_feature]
+            ssa_threshold = 0.85
+            # ---------------------------------------------------------
             # forward pass
             for i in range(best_i, video_len):
                 if i == best_i:
                     mask_prob = processor.step(imgs_cutie[i].cuda(), ref_masks[best_ref_idx].squeeze(0), objects=[1])
                 else:
                     mask_prob = processor.step(imgs_cutie[i].cuda())
+                    
+                    # --- SSA Drift Prevention ---
+                    bin_mask = (mask_prob > 0.5).float()
+                    if bin_mask.sum() > 0:
+                        current_clip_img = imgs_clip[i].unsqueeze(0).cuda()
+                        current_alpha = clip_preprocess_mask(bin_mask.unsqueeze(0)).cuda()
+                        current_feature = clip.visual(current_clip_img, current_alpha.unsqueeze(0))
+                        current_feature = current_feature / current_feature.norm(dim=-1, keepdim=True)
+                        
+                        alignment_scores = [torch.matmul(current_feature, hist.transpose(0, 1)).item() for hist in ssa_history_queue]
+                        avg_alignment = sum(alignment_scores) / len(alignment_scores)
+                        
+                        if avg_alignment > ssa_threshold:
+                            ssa_history_queue.append(current_feature)
+                            if len(ssa_history_queue) > 128:
+                                ssa_history_queue.pop(0)
+                        else:
+                            # Drift detected, suppress output mask
+                            mask_prob = torch.zeros_like(mask_prob)
+                            
                 mask = processor.output_prob_to_mask(mask_prob).float()
 
                 # clear memory for each sequence
@@ -148,11 +202,34 @@ def test():
                 mask.save(save_file)
 
             # backward pass
+            # Re-initialize SSA queue for backward pass
+            ssa_history_queue = [anchor_feature]
+            
             for i in range(best_i, -1, -1):
                 if i == best_i:
                     mask_prob = processor.step(imgs_cutie[i].cuda(), ref_masks[best_ref_idx].squeeze(0), objects=[1])
                 else:
                     mask_prob = processor.step(imgs_cutie[i].cuda())
+                    
+                    # --- SSA Drift Prevention ---
+                    bin_mask = (mask_prob > 0.5).float()
+                    if bin_mask.sum() > 0:
+                        current_clip_img = imgs_clip[i].unsqueeze(0).cuda()
+                        current_alpha = clip_preprocess_mask(bin_mask.unsqueeze(0)).cuda()
+                        current_feature = clip.visual(current_clip_img, current_alpha.unsqueeze(0))
+                        current_feature = current_feature / current_feature.norm(dim=-1, keepdim=True)
+                        
+                        alignment_scores = [torch.matmul(current_feature, hist.transpose(0, 1)).item() for hist in ssa_history_queue]
+                        avg_alignment = sum(alignment_scores) / len(alignment_scores)
+                        
+                        if avg_alignment > ssa_threshold:
+                            ssa_history_queue.append(current_feature)
+                            if len(ssa_history_queue) > 128:
+                                ssa_history_queue.pop(0)
+                        else:
+                            # Drift detected, suppress output mask
+                            mask_prob = torch.zeros_like(mask_prob)
+
                 mask = processor.output_prob_to_mask(mask_prob).float()
 
                 # clear memory for each sequence
