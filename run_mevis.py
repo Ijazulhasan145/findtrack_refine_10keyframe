@@ -16,8 +16,16 @@ from transformers import AutoTokenizer, BitsAndBytesConfig
 import warnings
 warnings.filterwarnings('ignore')
 
+import argparse
 
-def test():
+def parse_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--split', type=str, default='valid', choices=['valid', 'test'])
+    parser.add_argument('--start_idx', type=int, default=0, help='Start index for video processing')
+    parser.add_argument('--end_idx', type=int, default=None, help='End index for video processing')
+    return parser.parse_args()
+
+def test(args):
 
     # initialize EVF-SAM
     tokenizer, evfsam = init_models()
@@ -32,16 +40,19 @@ def test():
 
     # load videos
     output_dir = 'outputs'
-    save_path_prefix = os.path.join(output_dir, 'MeViS_val')
+    save_path_prefix = os.path.join(output_dir, f'MeViS_{args.split}')
     if not os.path.exists(save_path_prefix):
         os.makedirs(save_path_prefix)
     root = '../DB/RVOS/MeViS'
-    img_folder = os.path.join(root, 'valid', 'JPEGImages')
-    meta_file = os.path.join(root, 'valid', 'meta_expressions.json')
+    img_folder = os.path.join(root, args.split, 'JPEGImages')
+    meta_file = os.path.join(root, args.split, 'meta_expressions.json')
     with open(meta_file, 'r') as f:
         data = json.load(f)['videos']
     valid_videos = set(data.keys())
     video_list = sorted([video for video in valid_videos])
+    
+    end_idx = args.end_idx if args.end_idx is not None else len(video_list)
+    video_list = video_list[args.start_idx:end_idx]
 
     # inference
     for idx_, video in enumerate(video_list):
@@ -268,6 +279,7 @@ def test():
 
 
 if __name__ == '__main__':
+    args = parse_args()
     torch.cuda.set_device(0)
     with torch.no_grad(), torch.cuda.amp.autocast(enabled=True, dtype=torch.float16):
-        test()
+        test(args)
